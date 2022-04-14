@@ -84,7 +84,7 @@
       }
     },
     "formrecognizer_1_siteUrl": {
-      "type": "string",
+      "type": "securestring",
       "metadata": {
         "description": "Form Recognizer Endpoint Url (Example: https://your-formrecognizer-resource.cognitiveservices.azure.com/)"
       }
@@ -98,7 +98,7 @@
       "defaultValue": "datalake"
     },
     "azureblob_1_accountName": {
-      "type": "string",
+      "type": "securestring",
       "metadata": {
         "description": "Name of the storage account the connector should use."
       }
