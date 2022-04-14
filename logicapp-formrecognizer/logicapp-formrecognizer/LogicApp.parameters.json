@@ -6,10 +6,20 @@
       "value": "ba-logicapp03-formrecognizer-re"
     },
     "azureblob_1_accountName": {
-      "value": "bastoragedatalake01"
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+        },
+        "secretName": "datalake-storagename"
+      }
     },
     "formrecognizer_1_siteUrl": {
-      "value": "https://ba-formrecognizer01.cognitiveservices.azure.com/"
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+        },
+        "secretName": "formrecognizer-endpoint"
+      }
     },
     "formrecognizer_1_api_key": {
       "reference": {
