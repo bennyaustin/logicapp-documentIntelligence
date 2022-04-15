@@ -5,6 +5,9 @@
     "logicAppName": {
       "value": "ba-logicapp03-formrecognizer-re"
     },
+    "formrecognizer_model_id": {
+      "value": "efa12621-9794-4609-aecd-fe178c8d657d"
+    },
     "azureblob_1_accountName": {
       "reference": {
         "keyVault": {
