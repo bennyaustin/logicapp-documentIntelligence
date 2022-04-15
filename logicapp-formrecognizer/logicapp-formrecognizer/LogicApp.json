@@ -61,6 +61,12 @@
         "description": "Location of the Logic App."
       }
     },
+    "formrecognizer_model_id": {
+      "type": "string",
+      "metadata": {
+        "description": "Id (GUID) of the custom form recognizer model"
+      }
+    },
     "azureeventgrid_3_Connection_Name": {
       "type": "string",
       "defaultValue": "azureeventgrid"
@@ -171,13 +177,13 @@
                 },
                 "method": "post",
                 "body": "@body('Get_doc_content')",
-                "path": "/v2.1/custom/models/@{encodeURIComponent('efa12621-9794-4609-aecd-fe178c8d657d')}/analyze",
+                "path": "/v2.1/custom/models/@{encodeURIComponent(variables('modelId'))}/analyze",
                 "queries": {
                   "includeTextDetails": true
                 }
               },
               "runAfter": {
-                "Get_doc_content": [
+                "modelId": [
                   "Succeeded"
                 ]
               }
@@ -221,7 +227,7 @@
                 ]
               }
             },
-            "Create_JSON": {
+            "Write_output_JSON": {
               "type": "ApiConnection",
               "inputs": {
                 "host": {
@@ -265,6 +271,23 @@
               },
               "runAfter": {
                 "Form_Recognizer_Custom_Model": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "modelId": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "modelId",
+                    "type": "string",
+                    "value": "[parameters('formrecognizer_model_id')]"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Get_doc_content": [
                   "Succeeded"
                 ]
               }
