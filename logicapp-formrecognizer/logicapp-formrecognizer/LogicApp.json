@@ -55,7 +55,9 @@
         "norwaywest",
         "norwayeast",
         "brazilsoutheast",
-        "westus3"
+        "westus3",
+        "swedencentral",
+        "qatarcentral"
       ],
       "metadata": {
         "description": "Location of the Logic App."
@@ -197,7 +199,7 @@
                   {
                     "name": "blobUrl",
                     "type": "string",
-                    "value": "@{substring(variables('docUrl'),indexOf(variables('docUrl'),'raw-bronze'))}"
+                    "value": "@{substring(variables('docUrl'),indexOf(variables('docUrl'),'drop-zone'))}"
                   }
                 ]
               },
@@ -244,7 +246,7 @@
                 },
                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
                 "queries": {
-                  "folderPath": "/curated-silver/formrecognizer-re-json/",
+                  "folderPath": "/inference/formrecognizer-re-json/",
                   "name": "@variables('outputJson')",
                   "queryParametersSingleEncoded": true
                 }
@@ -312,7 +314,7 @@
                 },
                 "body": {
                   "properties": {
-                    "topic": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.Storage/storageAccounts/bastoragedatalake01",
+                    "topic": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.Storage/storageAccounts/bacustmodelstorage01q575",
                     "destination": {
                       "endpointType": "webhook",
                       "properties": {
@@ -323,12 +325,12 @@
                       "includedEventTypes": [
                         "Microsoft.Storage.BlobCreated"
                       ],
-                      "subjectBeginsWith": "/blobServices/default/containers/raw-bronze/blobs/formrecognizer-custom-re",
+                      "subjectBeginsWith": "/blobServices/default/containers/drop-zone/blobs/form-recognizer-custom-model-drop-zone/",
                       "subjectEndsWith": ".pdf"
                     }
                   }
                 },
-                "path": "/subscriptions/@{encodeURIComponent('5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
+                "path": "/subscriptions/@{encodeURIComponent('e836675f-2508-4873-ad4f-754d70253b22')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
                 "queries": {
                   "x-ms-api-version": "2017-06-15-preview"
                 }
