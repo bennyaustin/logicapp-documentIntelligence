@@ -3,41 +3,41 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
-      "value": "ba-logicapp03-formrecognizer-re"
+      "value": "ba-logicapp01-formrecognizer-re"
     },
     "formrecognizer_model_id": {
-      "value": "efa12621-9794-4609-aecd-fe178c8d657d"
+      "value": "Composite_RE_Agency_Statement_Model"
     },
-    "azureblob_1_accountName": {
+    "azureblob_accountName": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
         },
-        "secretName": "datalake-storagename"
+        "secretName": "aiml-storage-accountname"
       }
     },
-    "formrecognizer_1_siteUrl": {
+    "formrecognizer_siteUrl": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
         },
         "secretName": "formrecognizer-endpoint"
       }
     },
-    "formrecognizer_1_api_key": {
+    "formrecognizer_api_key": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
         },
         "secretName": "formrecognizer-apiKey"
       }
     },
-    "azureblob_1_accessKey": {
+    "azureblob_accessKey": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/5a5ba4fb-f4e0-4eaf-a2d3-7db71dfd729d/resourceGroups/rg-dataplatform/providers/Microsoft.KeyVault/vaults/ba-keyvault1"
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
         },
-        "secretName": "datalake-accesskey"
+        "secretName": "aiml-storage-accesskey"
       }
     }
   }

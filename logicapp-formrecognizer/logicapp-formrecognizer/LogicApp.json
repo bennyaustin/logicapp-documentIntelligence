@@ -67,55 +67,55 @@
         "description": "Id (GUID) of the custom form recognizer model"
       }
     },
-    "azureeventgrid_3_Connection_Name": {
+    "azureeventgrid_connection_name": {
       "type": "string",
-      "defaultValue": "azureeventgrid"
+      "defaultValue": "aiml_eventgrid"
     },
-    "azureeventgrid_3_Connection_DisplayName": {
+    "azureeventgrid_connection_displayName": {
       "type": "string",
-      "defaultValue": "azureeventgrid-datalake"
+      "defaultValue": "aiml_eventgrid"
     },
-    "formrecognizer_1_Connection_Name": {
+    "formrecognizer_connection_name": {
       "type": "string",
-      "defaultValue": "formrecognizer"
+      "defaultValue": "aiml_formrecognizer"
     },
-    "formrecognizer_1_Connection_DisplayName": {
+    "formrecognizer_connection_displayName": {
       "type": "string",
-      "defaultValue": "formrecognizer-re-statement"
+      "defaultValue": "aiml_formrecognizer"
     },
-    "formrecognizer_1_api_key": {
+    "formrecognizer_api_key": {
       "type": "securestring",
       "metadata": {
         "description": "Form Recognizer Account Key"
       }
     },
-    "formrecognizer_1_siteUrl": {
+    "formrecognizer_siteUrl": {
       "type": "securestring",
       "metadata": {
         "description": "Form Recognizer Endpoint Url (Example: https://your-formrecognizer-resource.cognitiveservices.azure.com/)"
       }
     },
-    "azureblob_1_Connection_Name": {
+    "azureblob_connection_name": {
       "type": "string",
-      "defaultValue": "azureblob"
+      "defaultValue": "aiml_blobstorage"
     },
-    "azureblob_1_Connection_DisplayName": {
+    "azureblob_connection_displayName": {
       "type": "string",
-      "defaultValue": "datalake"
+      "defaultValue": "aiml_blobstorage"
     },
-    "azureblob_1_accountName": {
+    "azureblob_accountName": {
       "type": "securestring",
       "metadata": {
         "description": "Name of the storage account the connector should use."
       }
     },
-    "azureblob_1_accessKey": {
+    "azureblob_accessKey": {
       "type": "securestring",
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
     },
-    "azureblob_1_authType": {
+    "azureblob_authType": {
       "type": "string",
       "metadata": {
         "description": "Authentication type to connect to your database"
@@ -126,7 +126,7 @@
       ],
       "defaultValue": "basic"
     },
-    "azureblob_1_privacySetting": {
+    "azureblob_privacySetting": {
       "type": "string",
       "metadata": {
         "description": "Privacy Setting"
@@ -140,10 +140,12 @@
       "defaultValue": "Public"
     }
   },
-  "variables": {},
+  "variables": {
+    "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]"
+  },
   "resources": [
     {
-      "name": "[parameters('logicAppName')]",
+      "name": "[variables('logicAppUniqueName')]",
       "type": "Microsoft.Logic/workflows",
       "location": "[parameters('logicAppLocation')]",
       "tags": {
@@ -342,72 +344,72 @@
             "value": {
               "formrecognizer": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'formrecognizer')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_1_Connection_Name'))]",
-                "connectionName": "[parameters('formrecognizer_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
+                "connectionName": "[parameters('formrecognizer_connection_name')]"
               },
               "azureblob": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
+                "connectionName": "[parameters('azureblob_connection_name')]"
               },
               "azureeventgrid_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureeventgrid')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_3_Connection_Name'))]",
-                "connectionName": "[parameters('azureeventgrid_3_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_connection_name'))]",
+                "connectionName": "[parameters('azureeventgrid_connection_name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_3_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_connection_name'))]"
       ]
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azureeventgrid_3_Connection_Name')]",
+      "name": "[parameters('azureeventgrid_connection_name')]",
       "location": "[parameters('logicAppLocation')]",
       "properties": {
         "api": {
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureeventgrid')]"
         },
-        "displayName": "[parameters('azureeventgrid_3_Connection_DisplayName')]"
+        "displayName": "[parameters('azureeventgrid_connection_displayName')]"
       }
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('formrecognizer_1_Connection_Name')]",
+      "name": "[parameters('formrecognizer_connection_name')]",
       "location": "[parameters('logicAppLocation')]",
       "properties": {
         "api": {
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'formrecognizer')]"
         },
-        "displayName": "[parameters('formrecognizer_1_Connection_DisplayName')]",
+        "displayName": "[parameters('formrecognizer_connection_displayName')]",
         "parameterValues": {
-          "api_key": "[parameters('formrecognizer_1_api_key')]",
-          "siteUrl": "[parameters('formrecognizer_1_siteUrl')]"
+          "api_key": "[parameters('formrecognizer_api_key')]",
+          "siteUrl": "[parameters('formrecognizer_siteUrl')]"
         }
       }
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azureblob_1_Connection_Name')]",
+      "name": "[parameters('azureblob_connection_name')]",
       "location": "[parameters('logicAppLocation')]",
       "properties": {
         "api": {
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]"
         },
-        "displayName": "[parameters('azureblob_1_Connection_DisplayName')]",
+        "displayName": "[parameters('azureblob_connection_displayName')]",
         "parameterValues": {
-          "accountName": "[parameters('azureblob_1_accountName')]",
-          "accessKey": "[parameters('azureblob_1_accessKey')]",
-          "authType": "[parameters('azureblob_1_authType')]",
-          "privacySetting": "[parameters('azureblob_1_privacySetting')]"
+          "accountName": "[parameters('azureblob_accountName')]",
+          "accessKey": "[parameters('azureblob_accessKey')]",
+          "authType": "[parameters('azureblob_authType')]",
+          "privacySetting": "[parameters('azureblob_privacySetting')]"
         }
       }
     }
