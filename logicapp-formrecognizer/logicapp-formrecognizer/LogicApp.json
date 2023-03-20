@@ -174,27 +174,6 @@
               },
               "runAfter": {}
             },
-            "Form_Recognizer_Custom_Model": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['formrecognizer']['connectionId']"
-                  }
-                },
-                "method": "post",
-                "body": "@body('Get_doc_content')",
-                "path": "/v2.1/custom/models/@{encodeURIComponent(variables('modelId'))}/analyze",
-                "queries": {
-                  "includeTextDetails": true
-                }
-              },
-              "runAfter": {
-                "modelId": [
-                  "Succeeded"
-                ]
-              }
-            },
             "blobUrl": {
               "type": "InitializeVariable",
               "inputs": {
@@ -243,7 +222,6 @@
                   }
                 },
                 "method": "post",
-                "body": "@body('Form_Recognizer_Custom_Model')?['analyzeResult']?['documentResults']",
                 "headers": {
                   "ReadFileMetadataFromServer": true
                 },
@@ -255,7 +233,7 @@
                 }
               },
               "runAfter": {
-                "Form_Recognizer_Custom_Model": [
+                "outputJson": [
                   "Succeeded"
                 ]
               },
@@ -414,18 +392,6 @@
                   "Succeeded"
                 ]
               }
-            },
-            "Response": {
-              "type": "Response",
-              "kind": "http",
-              "inputs": {
-                "statusCode": 200
-              },
-              "runAfter": {
-                "outputJson": [
-                  "Succeeded"
-                ]
-              }
             }
           },
           "parameters": {
@@ -475,11 +441,6 @@
         "parameters": {
           "$connections": {
             "value": {
-              "formrecognizer": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'formrecognizer')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
-                "connectionName": "[parameters('formrecognizer_connection_name')]"
-              },
               "azureblob": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
@@ -495,7 +456,6 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_connection_name'))]"
       ]
