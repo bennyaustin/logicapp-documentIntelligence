@@ -402,6 +402,18 @@
                   "Succeeded"
                 ]
               }
+            },
+            "Set_output": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "output",
+                "value": "@{body('Get_Document')['analyzeResult']['documents']}"
+              },
+              "runAfter": {
+                "Until_Finish": [
+                  "Succeeded"
+                ]
+              }
             }
           },
           "parameters": {
