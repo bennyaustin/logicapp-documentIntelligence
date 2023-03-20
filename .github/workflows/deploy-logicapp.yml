@@ -22,6 +22,6 @@ jobs:
       with:
         scope: resourcegroup
         resourceGroupName: 'rg-aiml'
-        template: '/logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
+        template: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
         parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.parameters.json'
         failOnStdErr: false
