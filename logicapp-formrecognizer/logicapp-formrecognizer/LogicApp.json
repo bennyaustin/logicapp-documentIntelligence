@@ -303,7 +303,12 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "[variables('analyzeAPI')]"
+                "uri": "[variables('analyzeAPI')]",
+                "headers": {
+                  "Content-Type": "application/pdf",
+                  "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
+                },
+                "body": "@body('Get_doc_content')"
               },
               "runAfter": {
                 "analyzeAPI": [
@@ -323,6 +328,39 @@
               },
               "runAfter": {
                 "modelId": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "status": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "status",
+                    "type": "string",
+                    "value": "running"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Form_Recognizer_Ananlyze_API": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "output",
+                    "type": "string"
+                  }
+                ]
+              },
+              "runAfter": {
+                "status": [
                   "Succeeded"
                 ]
               }
