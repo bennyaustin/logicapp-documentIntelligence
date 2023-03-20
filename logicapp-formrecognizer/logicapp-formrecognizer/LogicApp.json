@@ -255,7 +255,7 @@
                 }
               },
               "runAfter": {
-                "outputJson": [
+                "Form_Recognizer_Custom_Model": [
                   "Succeeded"
                 ]
               },
@@ -277,7 +277,7 @@
                 ]
               },
               "runAfter": {
-                "Form_Recognizer_Custom_Model": [
+                "Set_output": [
                   "Succeeded"
                 ]
               }
@@ -411,6 +411,18 @@
               },
               "runAfter": {
                 "Until_Finish": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Response": {
+              "type": "Response",
+              "kind": "http",
+              "inputs": {
+                "statusCode": 200
+              },
+              "runAfter": {
+                "outputJson": [
                   "Succeeded"
                 ]
               }
