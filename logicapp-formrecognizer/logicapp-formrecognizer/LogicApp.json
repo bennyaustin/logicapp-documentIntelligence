@@ -67,7 +67,8 @@
       "type": "string",
       "metadata": {
         "description": "Id (GUID) of the custom form recognizer model"
-      }
+      },
+      "defaultValue": "your_formrecognizer_model_id"
     },
     "azureeventgrid_connection_name": {
       "type": "string",
@@ -95,7 +96,8 @@
       "type": "securestring",
       "metadata": {
         "description": "Form Recognizer Endpoint Url (Example: https://your-formrecognizer-resource.cognitiveservices.azure.com/)"
-      }
+      },
+      "defaultValue": "https://your-formrecognizer-resource.cognitiveservices.azure.com"
     },
     "azureblob_connection_name": {
       "type": "string",
@@ -143,7 +145,8 @@
     }
   },
   "variables": {
-    "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]"
+    "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]",
+    "analyzeAPI": "[concat(parameters('formrecognizer_siteUrl'),'/formrecognizer/documentModels/',parameters('formrecognizer_model_id'),':analyze?api-version=2022-08-31')]"
   },
   "resources": [
     {
@@ -170,27 +173,6 @@
                 ]
               },
               "runAfter": {}
-            },
-            "Form_Recognizer_Custom_Model": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['formrecognizer']['connectionId']"
-                  }
-                },
-                "method": "post",
-                "body": "@body('Get_doc_content')",
-                "path": "/v2.1/custom/models/@{encodeURIComponent(variables('modelId'))}/analyze",
-                "queries": {
-                  "includeTextDetails": true
-                }
-              },
-              "runAfter": {
-                "modelId": [
-                  "Succeeded"
-                ]
-              }
             },
             "blobUrl": {
               "type": "InitializeVariable",
@@ -240,7 +222,6 @@
                   }
                 },
                 "method": "post",
-                "body": "@body('Form_Recognizer_Custom_Model')?['analyzeResult']?['documentResults']",
                 "headers": {
                   "ReadFileMetadataFromServer": true
                 },
@@ -274,7 +255,7 @@
                 ]
               },
               "runAfter": {
-                "Form_Recognizer_Custom_Model": [
+                "Set_output": [
                   "Succeeded"
                 ]
               }
@@ -292,6 +273,122 @@
               },
               "runAfter": {
                 "Get_doc_content": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Form_Recognizer_Analyze_API": {
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://your-formrecognizer-resource.cognitiveservices.azure.com/formrecognizer/documentModels/your_formrecognizer_model_id:analyze?api-version=2022-08-31",
+                "headers": {
+                  "Content-Type": "application/pdf",
+                  "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
+                },
+                "body": "@body('Get_doc_content')"
+              },
+              "runAfter": {
+                "analyzeAPI": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "analyzeAPI": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "analyzeAPI",
+                    "type": "string"
+                  }
+                ]
+              },
+              "runAfter": {
+                "modelId": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "status": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "status",
+                    "type": "string",
+                    "value": "running"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Form_Recognizer_Analyze_API": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "output",
+                    "type": "string"
+                  }
+                ]
+              },
+              "runAfter": {
+                "status": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Until_Finish": {
+              "type": "Until",
+              "expression": "@equals(variables('status'), 'succeeded')",
+              "limit": {
+                "count": 5000,
+                "timeout": "PT1H"
+              },
+              "actions": {
+                "Get_Document": {
+                  "type": "Http",
+                  "inputs": {
+                    "method": "GET",
+                    "uri": "@{outputs('Form_Recognizer_Analyze_API')['headers']?['Operation-Location']}",
+                    "headers": {
+                      "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
+                    }
+                  },
+                  "runAfter": {}
+                },
+                "Set_status": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "status",
+                    "value": "@{body('Get_Document')?['status']}"
+                  },
+                  "runAfter": {
+                    "Get_Document": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "runAfter": {
+                "Initialize_variable": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Set_output": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "output",
+                "value": "@{body('Get_Document')['analyzeResult']['documents']}"
+              },
+              "runAfter": {
+                "Until_Finish": [
                   "Succeeded"
                 ]
               }
@@ -344,11 +441,6 @@
         "parameters": {
           "$connections": {
             "value": {
-              "formrecognizer": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'formrecognizer')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
-                "connectionName": "[parameters('formrecognizer_connection_name')]"
-              },
               "azureblob": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
@@ -364,7 +456,6 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('formrecognizer_connection_name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureblob_connection_name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_connection_name'))]"
       ]
