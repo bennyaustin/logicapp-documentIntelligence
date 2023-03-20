@@ -67,7 +67,8 @@
       "type": "string",
       "metadata": {
         "description": "Id (GUID) of the custom form recognizer model"
-      }
+      },
+      "defaultValue": "your_formrecognizer_model_id"
     },
     "azureeventgrid_connection_name": {
       "type": "string",
@@ -95,7 +96,8 @@
       "type": "securestring",
       "metadata": {
         "description": "Form Recognizer Endpoint Url (Example: https://your-formrecognizer-resource.cognitiveservices.azure.com/)"
-      }
+      },
+      "defaultValue": "https://your-formrecognizer-resource.cognitiveservices.azure.com"
     },
     "azureblob_connection_name": {
       "type": "string",
@@ -143,7 +145,8 @@
     }
   },
   "variables": {
-    "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]"
+    "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]",
+    "analyzeAPI": "[concat(parameters('formrecognizer_siteUrl'),'/formrecognizer/documentModels/',parameters('formrecognizer_model_id'),':analyze?api-version=2022-08-31')]"
   },
   "resources": [
     {
@@ -292,6 +295,34 @@
               },
               "runAfter": {
                 "Get_doc_content": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Form_Recognizer_Ananlyze_API": {
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "[variables('analyzeAPI')]"
+              },
+              "runAfter": {
+                "analyzeAPI": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "analyzeAPI": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "analyzeAPI",
+                    "type": "string"
+                  }
+                ]
+              },
+              "runAfter": {
+                "modelId": [
                   "Succeeded"
                 ]
               }
