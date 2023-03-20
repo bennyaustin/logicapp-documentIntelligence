@@ -1,0 +1,27 @@
+name: Deploy Logic App
+on: workflow_dispatch 
+# on:
+#   push:
+#     branches:
+#         - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout code
+    - uses: actions/checkout@v3
+    
+    #Log into Azure
+    - uses: azure/login@v1
+      with:
+           creds: '{"clientId":"${{ secrets.ACTION_SPN_CLIENTID }}","clientSecret":"${{ secrets.ACTION_SPN_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+
+    # Deploy Logic App ARM Template
+    - name: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        scope: resourcegroup
+        resourceGroupName: 'rg-aiml'
+        template: '/logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
+        parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.parameters.json'
+        failOnStdErr: false
