@@ -277,11 +277,11 @@
                 ]
               }
             },
-            "Form_Recognizer_Ananlyze_API": {
+            "Form_Recognizer_Analyze_API": {
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "[variables('analyzeAPI')]",
+                "uri": "https://your-formrecognizer-resource.cognitiveservices.azure.com/formrecognizer/documentModels/your_formrecognizer_model_id:analyze?api-version=2022-08-31",
                 "headers": {
                   "Content-Type": "application/pdf",
                   "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
@@ -322,7 +322,7 @@
                 ]
               },
               "runAfter": {
-                "Form_Recognizer_Ananlyze_API": [
+                "Form_Recognizer_Analyze_API": [
                   "Succeeded"
                 ]
               }
@@ -355,7 +355,7 @@
                   "type": "Http",
                   "inputs": {
                     "method": "GET",
-                    "uri": "@{outputs('Form_Recognizer_Ananlyze_API')['headers']?['Operation-Location']}",
+                    "uri": "@{outputs('Form_Recognizer_Analyze_API')['headers']?['Operation-Location']}",
                     "headers": {
                       "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
                     }
