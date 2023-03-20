@@ -165,7 +165,7 @@
                   {
                     "name": "docUrl",
                     "type": "string",
-                    "value": "@{triggerBody()['data']['blobUrl']}"
+                    "value": "@{triggerBody()['data']['url']}"
                   }
                 ]
               },
