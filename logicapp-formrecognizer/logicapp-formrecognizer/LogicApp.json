@@ -222,6 +222,7 @@
                   }
                 },
                 "method": "post",
+                "body": "@variables('output')",
                 "headers": {
                   "ReadFileMetadataFromServer": true
                 },
