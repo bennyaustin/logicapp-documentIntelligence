@@ -281,7 +281,7 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "https://your-formrecognizer-resource.cognitiveservices.azure.com/formrecognizer/documentModels/your_formrecognizer_model_id:analyze?api-version=2022-08-31",
+                "uri": "[variables('analyzeAPI')]",
                 "headers": {
                   "Content-Type": "application/pdf",
                   "Ocp-Apim-Subscription-Key": "[parameters('formrecognizer_api_key')]"
