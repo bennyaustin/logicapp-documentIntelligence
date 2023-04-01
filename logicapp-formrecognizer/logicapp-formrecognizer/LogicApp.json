@@ -153,6 +153,7 @@
       "name": "[variables('logicAppUniqueName')]",
       "type": "Microsoft.Logic/workflows",
       "location": "[parameters('logicAppLocation')]",
+      "identity": { "type": "SystemAssigned" },
       "tags": {
         "displayName": "LogicApp"
       },
