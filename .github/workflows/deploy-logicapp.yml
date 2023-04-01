@@ -1,11 +1,11 @@
 name: Deploy Logic App
-on: workflow_dispatch 
-# on:
-#   push:
-#     branches:
-#         - main
-#     paths:
-#         - logicapp-formrecognizer
+# on: workflow_dispatch 
+on:
+  push:
+    branches:
+        - main
+    paths:
+        - logicapp-formrecognizer
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
