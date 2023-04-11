@@ -19,12 +19,22 @@ jobs:
            creds: '{"clientId":"${{ secrets.ACTION_SPN_CLIENTID }}","clientSecret":"${{ secrets.ACTION_SPN_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
     # Deploy Logic App ARM Template
-    - name: deploy
+    - name: deploy-re-statements
       uses: azure/arm-deploy@v1
       with:
         scope: resourcegroup
         resourceGroupName: 'rg-aiml'
-        deploymentName: 'logicapp_formrecognizer_deployment'
+        deploymentName: 'logicapp_formrecognizer_re_statement_deployment'
         template: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
         parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.parameters.json'
         failOnStdErr: false
+
+    - name: deploy-sec-form10q
+      uses: azure/arm-deploy@v1
+      with:
+        scope: resourcegroup
+        resourceGroupName: 'rg-aiml'
+        deploymentName: 'logicapp_formrecognizer_sec_form10q_deployment'
+        template: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
+        parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.SECForm10q.parameters.json'
+        failOnStdErr: false        

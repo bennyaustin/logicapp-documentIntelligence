@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "ba-logicapp02-formrecognizer-sec-form10q"
+    },
+    "formrecognizer_model_id": {
+      "value": "SEC_Form_10-Q"
+    },
+    "azureblob_accountName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+        },
+        "secretName": "aiml-storage-accountname"
+      }
+    },
+    "formrecognizer_siteUrl": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+        },
+        "secretName": "formrecognizer-endpoint"
+      }
+    },
+    "formrecognizer_api_key": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+        },
+        "secretName": "formrecognizer-apiKey"
+      }
+    },
+    "azureblob_accessKey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+        },
+        "secretName": "aiml-storage-accesskey"
+      }
+    },
+    "trigger_container": {
+      "value": "drop-zone"
+    },
+    "trigger_folder": {
+      "value": "form-recognizer-custom-model-drop-zone/sec-form10q"
+    },
+    "output_container": {
+      "value": "inference"
+    },
+    "output_folder": {
+      "value": "formrecognizer-sec-form10q-json"
+    }
+  }
+}
