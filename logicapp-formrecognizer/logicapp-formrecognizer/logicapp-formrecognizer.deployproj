@@ -27,6 +27,7 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <Content Include="LogicApp.SECForm10q.parameters.json" />
     <Content Include="LogicApp.json" />
     <Content Include="LogicApp.parameters.json" />
   </ItemGroup>
