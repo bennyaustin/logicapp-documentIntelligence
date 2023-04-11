@@ -39,6 +39,18 @@
         },
         "secretName": "aiml-storage-accesskey"
       }
+    },
+    "trigger_container": {
+      "value": "drop-zone"
+    },
+    "trigger_folder": {
+      "value": "form-recognizer-custom-model-drop-zone/re-statements"
+    },
+    "output_container": {
+      "value": "inference"
+    },
+    "output_folder": {
+      "value": "formrecognizer-re-json"
     }
   }
 }

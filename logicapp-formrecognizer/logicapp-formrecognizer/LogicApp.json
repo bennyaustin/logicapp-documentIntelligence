@@ -142,11 +142,38 @@
         "Public"
       ],
       "defaultValue": "Public"
+    },
+    "trigger_container": {
+      "type": "string",
+      "metadata": {
+        "description": "Event grid trigger storage container"
+      }
+    },
+    "trigger_folder": {
+      "type": "string",
+      "metadata": {
+        "description": "Event grid trigger storage folder"
+      }
+    },
+    "output_container": {
+      "type": "string",
+      "metadata": {
+        "description": "Output sink storage container"
+      }
+    },
+    "output_folder": {
+      "type": "string",
+      "metadata": {
+        "description": "Output sink storage folder"
+      }
     }
+
   },
   "variables": {
     "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]",
-    "analyzeAPI": "[concat(parameters('formrecognizer_siteUrl'),'/formrecognizer/documentModels/',parameters('formrecognizer_model_id'),':analyze?api-version=2022-08-31')]"
+    "analyzeAPI": "[concat(parameters('formrecognizer_siteUrl'),'/formrecognizer/documentModels/',parameters('formrecognizer_model_id'),':analyze?api-version=2022-08-31')]",
+    "trigger_storage_path": "[concat('/blobServices/default/containers/', parameters('trigger_container'),'/blobs/',parameters('trigger_folder'),'/')]",
+    "output_storage_path": "[concat('/',parameters('output_container'),'/',parameters('output_folder'),'/')]"
   },
   "resources": [
     {
@@ -229,7 +256,7 @@
                 },
                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
                 "queries": {
-                  "folderPath": "/inference/formrecognizer-re-json/",
+                  "folderPath": "[variables('output_storage_path')]",
                   "name": "@variables('outputJson')",
                   "queryParametersSingleEncoded": true
                 }
@@ -424,7 +451,7 @@
                       "includedEventTypes": [
                         "Microsoft.Storage.BlobCreated"
                       ],
-                      "subjectBeginsWith": "/blobServices/default/containers/drop-zone/blobs/form-recognizer-custom-model-drop-zone/",
+                      "subjectBeginsWith": "[variables('trigger_storage_path')]",
                       "subjectEndsWith": ".pdf"
                     }
                   }
