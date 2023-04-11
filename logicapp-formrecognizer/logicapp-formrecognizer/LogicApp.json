@@ -414,7 +414,7 @@
               "type": "SetVariable",
               "inputs": {
                 "name": "output",
-                "value": "@{body('Get_Document')['analyzeResult']['documents']}"
+                "value": "@{body('Get_Document')['analyzeResult']['documents'][0]['fields']}"
               },
               "runAfter": {
                 "Until_Finish": [
