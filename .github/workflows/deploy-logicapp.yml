@@ -24,7 +24,7 @@ jobs:
       with:
         scope: resourcegroup
         resourceGroupName: 'rg-aiml'
-        deploymentName: 'logicapp_formrecognizer_re_statement_deployment'
+        deploymentName: 'logicapp_doci_restatement_deployment'
         template: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
         parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.parameters.json'
         failOnStdErr: false
@@ -34,7 +34,7 @@ jobs:
       with:
         scope: resourcegroup
         resourceGroupName: 'rg-aiml'
-        deploymentName: 'logicapp_formrecognizer_sec_form10q_deployment'
+        deploymentName: 'logicapp_doci_form10q_deployment'
         template: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.json'
         parameters: 'logicapp-formrecognizer/logicapp-formrecognizer/LogicApp.SECForm10q.parameters.json'
         failOnStdErr: false        
