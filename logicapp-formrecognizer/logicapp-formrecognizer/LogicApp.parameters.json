@@ -3,15 +3,15 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
-      "value": "ba-logicapp01-formrecognizer-re"
+      "value": "ba-logicapp01-doci-restatement"
     },
     "formrecognizer_model_id": {
-      "value": "Composite_RE_Agency_Statement_Model"
+      "value": "composite-restatement"
     },
     "azureblob_accountName": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+          "id": "/subscriptions/735994b1-b3b0-46d5-96bc-c9b30ddb4265/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-o2katdvwvvaba"
         },
         "secretName": "aiml-storage-accountname"
       }
@@ -19,38 +19,38 @@
     "formrecognizer_siteUrl": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+          "id": "/subscriptions/735994b1-b3b0-46d5-96bc-c9b30ddb4265/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-o2katdvwvvaba"
         },
-        "secretName": "formrecognizer-endpoint"
+        "secretName": "documentIntelligence-endpoint"
       }
     },
     "formrecognizer_api_key": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+          "id": "/subscriptions/735994b1-b3b0-46d5-96bc-c9b30ddb4265/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-o2katdvwvvaba"
         },
-        "secretName": "formrecognizer-apiKey"
+        "secretName": "documentIntelligence-apiKey"
       }
     },
     "azureblob_accessKey": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-q575qpucvik44"
+          "id": "/subscriptions/735994b1-b3b0-46d5-96bc-c9b30ddb4265/resourceGroups/rg-aiml/providers/Microsoft.KeyVault/vaults/ba-kv02-o2katdvwvvaba"
         },
         "secretName": "aiml-storage-accesskey"
       }
     },
     "trigger_container": {
-      "value": "drop-zone"
+      "value": "doci"
     },
     "trigger_folder": {
-      "value": "form-recognizer-custom-model-drop-zone/re-statements"
+      "value": "drop-zone/re-statements"
     },
     "output_container": {
-      "value": "inference"
+      "value": "doci"
     },
     "output_folder": {
-      "value": "formrecognizer-re-json"
+      "value": "inference/re-statements"
     }
   }
 }
