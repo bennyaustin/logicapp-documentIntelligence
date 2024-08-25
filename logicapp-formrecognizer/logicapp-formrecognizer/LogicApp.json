@@ -173,7 +173,8 @@
     "logicAppUniqueName": "[concat(toLower(parameters('logicAppName')),'-', uniqueString(resourceGroup().id))]",
     "analyzeAPI": "[concat(parameters('formrecognizer_siteUrl'),'/formrecognizer/documentModels/',parameters('formrecognizer_model_id'),':analyze?api-version=2022-08-31')]",
     "trigger_storage_path": "[concat('/blobServices/default/containers/', parameters('trigger_container'),'/blobs/',parameters('trigger_folder'),'/')]",
-    "output_storage_path": "[concat('/',parameters('output_container'),'/',parameters('output_folder'),'/')]"
+    "output_storage_path": "[concat('/',parameters('output_container'),'/',parameters('output_folder'),'/')]",
+    "trigger_body": "[concat(resourceGroup().id, '/providers/Microsoft.Storage/storageAccounts/',parameters('azureblob_accountName'))]"
   },
   "resources": [
     {
@@ -440,7 +441,8 @@
                 },
                 "body": {
                   "properties": {
-                    "topic": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.Storage/storageAccounts/bacustmodelstorage01q575",
+                    "topic": "[variables('trigger_body')]",
+                    // "topic": "/subscriptions/e836675f-2508-4873-ad4f-754d70253b22/resourceGroups/rg-aiml/providers/Microsoft.Storage/storageAccounts/bacustmodelstorage01q575",
                     "destination": {
                       "endpointType": "webhook",
                       "properties": {
@@ -456,7 +458,8 @@
                     }
                   }
                 },
-                "path": "/subscriptions/@{encodeURIComponent('e836675f-2508-4873-ad4f-754d70253b22')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
+                "path": "/subscriptions/@{encodeURIComponent(subscription().subscriptionId)}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
+                //"path": "/subscriptions/@{encodeURIComponent('e836675f-2508-4873-ad4f-754d70253b22')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
                 "queries": {
                   "x-ms-api-version": "2017-06-15-preview"
                 }
