@@ -210,7 +210,7 @@
                   {
                     "name": "blobUrl",
                     "type": "string",
-                    "value": "@{substring(variables('docUrl'),indexOf(variables('docUrl'),'drop-zone'))}"
+                    "value": "@{substring(variables('docUrl'),indexOf(variables('docUrl'),'doci'))}"
                   }
                 ]
               },
@@ -458,7 +458,7 @@
                     }
                   }
                 },
-                "path": "/subscriptions/@{encodeURIComponent(subscription().subscriptionId)}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
+                "path": "/subscriptions/@{subscription().subscriptionId}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
                 //"path": "/subscriptions/@{encodeURIComponent('e836675f-2508-4873-ad4f-754d70253b22')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
                 "queries": {
                   "x-ms-api-version": "2017-06-15-preview"
